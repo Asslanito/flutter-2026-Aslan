@@ -1,0 +1,10 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  # Practice 1 is an independent Flutter package with its own analyzer config.
+  exclude:
+    - practice01/**
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
