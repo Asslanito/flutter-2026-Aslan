@@ -18,6 +18,7 @@ Checked on Windows on 13 September 2026.
 | Java | Android Studio bundled OpenJDK 21 |
 | NDK | 28.2.13676358 installed |
 | Course emulator | Pixel_7_API_35, x86_64 Google APIs image, hardware GPU |
+| Android device verification | Booted successfully; Flutter detects Android 15 / API 35 |
 | Virtualization | Windows Hypervisor Platform available |
 
 The existing Flutter SDK works and is already in the system PATH. Its location
@@ -55,6 +56,25 @@ directories and the saved RAM snapshots of inactive emulators. Files were retain
   required factory parameter; the handout conflict is explained in the README.
 
 The terminal demonstration output is saved in `practice02-output.txt`.
+
+## Android first run
+
+- `flutter build apk --debug --target-platform android-x64`: successful.
+- `flutter run -d emulator-5554`: built, installed and launched the counter app.
+- The on-device Increment button changed the displayed counter from 0 to 1.
+- Pressing `r` completed hot reload in 550 ms (compile 16 ms, reassemble 242 ms).
+- `flutter doctor -v`: Flutter, Android toolchain and Connected device are healthy;
+  the connected emulator is Android 15 (API 35).
+
+The verification emulator was run without a desktop window and is shut down after
+testing. Open Android Studio's Device Manager and start `Pixel_7_API_35`, or use
+`flutter emulators --launch Pixel_7_API_35` before the next `flutter run`.
+
+The debug APK is generated locally at
+`practice01/hello/build/app/outputs/flutter-apk/app-debug.apk`. Build products and
+local SDK paths are excluded from Git; the source and dependency lockfiles are tracked.
+
+<img src="flutter-counter-api35.png" width="280" alt="Flutter counter on Pixel 7 API 35, displaying 1 after tapping Increment">
 
 ## Course access
 
