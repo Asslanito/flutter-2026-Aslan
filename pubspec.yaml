@@ -1,11 +1,6 @@
 name: flutter_2026_aslan
-description: Practice 2 - a library catalogue demonstrating Dart domain modeling.
-version: 1.0.0
+description: Practice 2 - Library Catalogue.
 publish_to: none
 
 environment:
   sdk: '>=3.8.0 <4.0.0'
-
-dev_dependencies:
-  lints: ^6.0.0
-  test: ^1.26.0

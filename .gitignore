@@ -1,19 +1,9 @@
-# Dart dependencies and generated files
 .dart_tool/
-.packages
-.pub-cache/
-.pub/
-build/
-coverage/
-doc/api/
-
-# Local diagnostics and editor settings
-.local/
 .idea/
+.local/
+pubspec.lock
+build/
 *.iml
 *.log
-*.swp
-
-# Operating system files
 .DS_Store
 Thumbs.db
