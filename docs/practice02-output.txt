@@ -22,7 +22,7 @@ Distinct authors: Martin, Hunt, Fowler, Gamma, Evans, Unknown
 Genres: Craft, Theory, Unknown
 
 NULL SAFETY
-Library opened: 2026-09-13T19:15:48.930526
+Library opened: 2026-09-14T17:02:51.156544
 Clean Code country: USA
 Design Patterns country: unknown
 Missing title country: unknown

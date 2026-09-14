@@ -1,82 +1,73 @@
-# Flutter 2026 — Aslan
+# Practice 2 — Dart Domain Modeling
 
-Mobile Development coursework.
+**Aslan · Mobile Development · 2026**
 
-## Practice 1: Flutter installation and first run
+A library catalogue in pure Dart, covering classes, inheritance, null safety,
+collections and Dart 3 patterns. The programme loads six books, handles incomplete
+records and prints a catalogue report with statistics.
 
-`practice01/hello/` is the original Flutter counter app, generated with the stable
-Flutter SDK. It is a separate Flutter package; the repository root is the pure
-Dart package for Practice 2. Check and run the counter app from its own directory:
+## Run
 
-```sh
-cd practice01/hello
-flutter pub get
-flutter analyze
-flutter test
-flutter emulators --launch Pixel_7_API_35
-flutter run
-```
-
-Press `r` in the running terminal to hot reload. Local setup and verification
-details are recorded in `docs/SETUP.md`.
-
-## Practice 2: Dart Domain Modeling
-
-A library catalogue written in pure Dart. This practice has no Flutter or widget
-dependencies. Run the following commands from the repository root:
+From the repository root, using Dart 3.8 or later:
 
 ```sh
 dart pub get
 dart run lib/week02/main.dart
+```
+
+## Project files
+
+| File | Contents |
+| --- | --- |
+| [data.dart](lib/week02/data.dart) | Original starter data: six books, including two incomplete entries |
+| [models.dart](lib/week02/models.dart) | Author, Genre, Book, LibraryItem, Magazine, Borrowable and Ghost |
+| [catalogue.dart](lib/week02/catalogue.dart) | Library, nullable lookup, cached report and collection queries |
+| [shelf_state.dart](lib/week02/shelf_state.dart) | Sealed states, exhaustive pattern matching and record statistics |
+| [main.dart](lib/week02/main.dart) | Runnable demonstration of all five levels |
+| [week02_test.dart](test/week02_test.dart) | Twelve tests for the models, queries and edge cases |
+
+## Expected results
+
+| Query | Result |
+| --- | --- |
+| Books | 6 |
+| Total pages | 2,219 |
+| Average pages | 369.83 |
+| Books published after 2010 | The Pragmatic Programmer, Refactoring, Broken Record |
+| Genres | Craft, Theory, Unknown |
+| Missing title | `null` |
+| Missing country | `unknown` |
+
+The demonstration also includes a Magazine and a Ghost to show the mixed
+hierarchy. Book statistics include only books. See the
+[complete sample output](docs/practice02-output.txt).
+
+## Checks
+
+```sh
 dart analyze
 dart test
 ```
 
-### Files and requirements
+Expected: `No issues found!` and all 12 tests passing. Tests cover incomplete and
+invalid input, empty catalogues, repeated authors, immutable copies, report cache
+invalidation, hierarchy behaviour and all three shelf states.
 
-| File | Features |
-| --- | --- |
-| `lib/week02/data.dart` | The six original starter entries, copied verbatim |
-| `lib/week02/models.dart` | Author, enhanced Genre enum, immutable Book, factory, getter, copyWith, LibraryItem, Magazine, Borrowable, Ghost |
-| `lib/week02/catalogue.dart` | Nullable lookup, null-aware country lookup, late initialization, cached report, expression-based collection queries |
-| `lib/week02/shelf_state.dart` | Exactly three sealed subtypes, exhaustive object-pattern switch, named record statistics |
-| `lib/week02/main.dart` | Executable demonstration of all five levels |
-| `test/week02_test.dart` | Incomplete input, empty catalogues, calculations, duplicate authors, cache invalidation, hierarchy and states |
+## Model conventions
 
-### Expected results
+- Missing pages default to zero and count towards the average.
+- `isLong` means more than 400 pages; `isOld` means more than 20 years old.
+- `copyWith` preserves omitted fields; `clearDescription: true` clears the description.
+- `Library.open()` sets the opening time once. Use `add()` to update the catalogue
+  and invalidate its cached report.
 
-- Six books; the optional Magazine and Ghost demonstrate the mixed catalogue.
-- Books after 2010: The Pragmatic Programmer, Refactoring, Broken Record.
-- Total pages: 2,219. Average over all six books: 369.83 (rounded for display).
-- Missing pages default to zero and remain included in the average.
-- Missing country displays `unknown`; missing genre becomes `Genre.unknown`.
-- An absent title returns `null` without throwing.
-- The display list ends with `(incomplete data)` because Broken Record has zero pages.
-- A record with `count: 6` and `avgPages: 369.8333333333333` is printed.
-- Empty, Ready and Broken are all described.
+<details>
+<summary>Note about the supplied starter data</summary>
 
-### Design notes
+The handout asks for `data.dart` to be copied exactly, including its
+`Map<String, dynamic>` declaration, while also banning `dynamic` outside the
+factory parameter. The starter data is preserved verbatim. The only other
+explicit `dynamic` is the required `Book.fromJson` parameter. All model fields,
+locals and query results are typed, and `lib/week02/` contains no exclamation marks.
 
-The brief does not define how old an item must be for `isOld`. This implementation
-uses more than 20 years relative to the current year. `isLong` is strictly more
-than 400 pages. `copyWith` preserves omitted values; `clearDescription: true`
-explicitly clears the optional description.
-
-`Library.open()` initializes `openedAt` once and safely ignores later calls.
-Use `Library.add()` to update the collection and invalidate the cached report.
-Book-only queries ignore magazines and ghost entries; the title query includes
-every library item. A zero-seeded `fold` and an empty-list guard keep averages safe.
-
-The handout contains one conflict: it requires the starter data to be copied
-exactly, including `Map<String, dynamic>`, but also bans `dynamic` outside the
-factory parameter. The supplied `data.dart` declaration is preserved as requested.
-The only other occurrence is the required `Book.fromJson` parameter. All model
-fields, locals and query results are typed. There are no exclamation marks anywhere
-in `lib/week02/`.
-
-### Language references
-
-- [Classes and constructors](https://dart.dev/language/classes)
-- [Null safety](https://dart.dev/null-safety/understanding-null-safety)
-- [Iterable collections](https://dart.dev/codelabs/iterables)
-- [Patterns](https://dart.dev/language/patterns)
+</details>
