@@ -32,7 +32,6 @@ abstract class LibraryItem {
 
   String describe();
 
-  // The assignment leaves the age threshold open: older than 20 years is old.
   bool get isOld => DateTime.now().year - year > 20;
 }
 
@@ -56,7 +55,6 @@ class Book extends LibraryItem with Borrowable {
   });
 
   factory Book.fromJson(Map<String, dynamic> json) {
-    // Keep untrusted input at this boundary; every local has a real type.
     final Object? title = json['title'];
     final Object? year = json['year'];
     final Object? pages = json['pages'];

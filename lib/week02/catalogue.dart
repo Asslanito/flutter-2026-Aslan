@@ -33,8 +33,7 @@ class Library {
   List<Book> get booksAfter2010 =>
       books.where((book) => book.year > 2010).toList();
 
-  // fold has a zero seed and works for an empty catalogue; reduce would throw.
-  // Missing page counts contribute zero, just as Book.fromJson defines.
+  // fold works on an empty list; reduce throws.
   double get averagePages => books.isEmpty
       ? 0.0
       : books.fold<int>(0, (total, book) => total + book.pages) / books.length;
@@ -58,6 +57,5 @@ class Library {
     if (books.any((book) => book.pages == 0)) '(incomplete data)',
   ];
 
-  // Use add() for catalogue changes so the cached report is invalidated.
   String get report => _cachedReport ??= displayLines.join('\n');
 }

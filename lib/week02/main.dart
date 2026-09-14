@@ -31,7 +31,6 @@ void main() {
 
   final refactoring = library.findByTitle('Refactoring');
   if (refactoring case final Book book) {
-    // Copy a nullable public field to a local before promoting it.
     final description = book.description;
     if (description is String) {
       print('Description: ${description.toUpperCase()}');
