@@ -1,16 +1,19 @@
+import 'dart:collection';
+
 import 'models.dart';
 
 class Library {
-  final List<LibraryItem> items;
+  final List<LibraryItem> _items;
+  late final List<LibraryItem> items = UnmodifiableListView(_items);
   late final DateTime openedAt;
   bool _opened = false;
   String? _cachedReport;
 
   Library([Iterable<LibraryItem> initialItems = const []])
-    : items = List<LibraryItem>.of(initialItems);
+    : _items = List<LibraryItem>.of(initialItems);
 
   void add(LibraryItem item) {
-    items.add(item);
+    _items.add(item);
     _cachedReport = null;
   }
 
