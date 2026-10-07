@@ -15,8 +15,6 @@ class ContactCard extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
-        // Without Expanded: A RenderFlex overflowed by 193 pixels on the right.
-        // Measured at 390 px viewport width with Roboto and text scale 1.0.
         child: Row(
           children: [
             Stack(
