@@ -8,7 +8,7 @@ List<Meeting> seedMeetings() {
   return [
     Meeting(
       id: '1',
-      title: 'Flutter study circle: layouts and simple navigation practice!',
+      title: 'Flutter study circle: layouts and simple navigation practice',
       category: Category.coding,
       when: day(1),
       place: 'Library, room 2',
