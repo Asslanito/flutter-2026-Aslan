@@ -15,7 +15,20 @@ class Shell extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
     title: 'Bookshop',
     theme: ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xFFB85C38),
+        surface: const Color(0xFFFFFDF9),
+      ),
+      scaffoldBackgroundColor: const Color(0xFFF5F1EA),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xFFF5F1EA),
+        foregroundColor: Color(0xFF292524),
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+      ),
+      snackBarTheme: const SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+      ),
       useMaterial3: true,
     ),
     routes: {

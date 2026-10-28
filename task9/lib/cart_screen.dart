@@ -43,31 +43,71 @@ class CartScreen extends StatelessWidget {
       builder: (context, cart, _) => Column(
         children: [
           Expanded(
-            child: ListView(
-              children: [
-                for (final book in cart.items)
-                  ListTile(
-                    title: Text(book.title),
-                    subtitle: Text('${book.price} ₸'),
-                    leading: Text('×${cart.qtyOf(book)}'),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          tooltip: 'Add one',
-                          onPressed: () => cart.increment(book),
-                          icon: const Icon(Icons.add),
-                        ),
-                        IconButton(
-                          tooltip: 'Remove',
-                          onPressed: () => cart.remove(book),
-                          icon: const Icon(Icons.close),
-                        ),
-                      ],
+            child: cart.items.isEmpty
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.shopping_bag_outlined,
+                            size: 56,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Your cart is empty',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
                     ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.only(top: 8),
+                    itemCount: cart.items.length,
+                    itemBuilder: (context, index) {
+                      final book = cart.items[index];
+                      return Card(
+                        margin: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                        elevation: 0,
+                        color: Theme.of(context).colorScheme.surface,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          leading: CircleAvatar(
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer,
+                            child: Text('×${cart.qtyOf(book)}'),
+                          ),
+                          title: Text(book.title),
+                          subtitle: Text('${book.price} ₸ each'),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                tooltip: 'Add one',
+                                onPressed: () => cart.increment(book),
+                                icon: const Icon(Icons.add),
+                              ),
+                              IconButton(
+                                tooltip: 'Remove',
+                                onPressed: () => cart.remove(book),
+                                icon: const Icon(Icons.close),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
-              ],
-            ),
           ),
           Consumer<Cart>(
             child: const Row(
