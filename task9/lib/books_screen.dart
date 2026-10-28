@@ -1,41 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'cart_badge.dart';
 import 'models/book.dart';
+import 'models/cart.dart';
 
-class BooksScreen extends StatelessWidget {
-  const BooksScreen({
-    super.key,
-    required this.cart,
-    required this.total,
-    required this.onAdd,
-  });
+class BooksScreen extends StatefulWidget {
+  const BooksScreen({super.key});
 
-  final List<Book> cart;
-  final int total;
-  final void Function(Book) onAdd;
+  @override
+  State<BooksScreen> createState() => _BooksScreenState();
+}
+
+class _BooksScreenState extends State<BooksScreen> {
+  String _searchText = '';
 
   @override
   Widget build(BuildContext context) {
     debugPrint('BooksScreen build');
+    final query = _searchText.trim().toLowerCase();
+    final filteredBooks = books.where((book) {
+      return book.title.toLowerCase().contains(query) ||
+          book.author.toLowerCase().contains(query);
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Books'),
-        actions: [CartBadge(count: cart.length, total: total)],
+        title: TextField(
+          key: const ValueKey('book-search'),
+          decoration: const InputDecoration(
+            hintText: 'Search books',
+            prefixIcon: Icon(Icons.search),
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.zero,
+          ),
+          onChanged: (value) => setState(() => _searchText = value),
+        ),
+        actions: const [CartBadge()],
       ),
       body: ListView.builder(
-        itemCount: books.length,
+        itemCount: filteredBooks.length,
         itemBuilder: (context, index) {
-          final book = books[index];
+          final book = filteredBooks[index];
           debugPrint('row ${book.title}');
-          final isAdded = cart.contains(book);
+          final isAdded = context.watch<Cart>().items.contains(book);
           return ListTile(
             title: Text(book.title),
             subtitle: Text('${book.author} · ${book.price} ₸'),
             trailing: isAdded
                 ? const Text('Added')
                 : OutlinedButton(
-                    onPressed: () => onAdd(book),
+                    onPressed: () {
+                      final added = context.read<Cart>().add(book);
+                      if (added) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(const SnackBar(content: Text('Added')));
+                      }
+                    },
                     child: const Text('Add'),
                   ),
           );
